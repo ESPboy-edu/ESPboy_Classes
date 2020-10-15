@@ -34,10 +34,10 @@ void ESPboyMenuGUI::menuDraw(){
   tft->drawRect(0, previousRect*MENU_SPACE_BETWEEN_LINES, 122, MENU_SPACE_BETWEEN_LINES, TFT_BLACK);
   tft->fillRect(125,0, 3, 128, TFT_BLACK);
 
-  if (menuList.currentSelected+1 > MENU_MAX_LINES_ONSCREEN + menuList.menuOffset) {
+  if (menuList.menuCurrent+1 > MENU_MAX_LINES_ONSCREEN + menuList.menuOffset) {
       tft->fillScreen(TFT_BLACK); 
       menuList.menuOffset++;}
-  if (menuList.currentSelected < menuList.menuOffset) {
+  if (menuList.menuCurrent < menuList.menuOffset) {
       tft->fillScreen(TFT_BLACK); 
       menuList.menuOffset--;}
 
@@ -66,12 +66,12 @@ void ESPboyMenuGUI::menuDraw(){
       }
     #endif
     
-    if((i+menuList.menuOffset) == menuList.currentSelected){
+    if((i+menuList.menuOffset) == menuList.menuCurrent){
       tft->drawRect(0, i*MENU_SPACE_BETWEEN_LINES, 122, MENU_SPACE_BETWEEN_LINES, menuList.menuSelectionColor);
       previousRect=i;}
   }
 
- tft->fillRect(125, (scalingFactor*menuList.currentSelected+2)/1000, 3, 5, TFT_YELLOW);
+ tft->fillRect(125, (scalingFactor*menuList.menuCurrent+2)/1000, 3, 5, TFT_YELLOW);
 }
 
 
@@ -83,7 +83,7 @@ uint16_t ESPboyMenuGUI::menuInit(const char** menuLinesF, uint16_t menuLineColor
   menuList.menuLine = menuLinesF;
   menuList.menuLineColor = menuLineColorF;
   menuList.menuUnselectedLineColor = menuUnselectedLineColorF;
-  menuList.currentSelected = 0;
+  menuList.menuCurrent = 0;
   menuList.menuSelectionColor = menuSelectionColorF;
   menuList.menuOffset=0;
   while(menuLinesF[count++]);
@@ -96,26 +96,36 @@ uint16_t ESPboyMenuGUI::menuInit(const char** menuLinesF, uint16_t menuLineColor
   
   keyPressed = getKeys();
   
-  if (keyPressed&MenuGUI_PAD_UP && menuList.currentSelected > 0) {
-    menuList.currentSelected--;
+  if (keyPressed&MenuGUI_PAD_UP && menuList.menuCurrent > 0) {
+    menuList.menuCurrent--;
     #ifdef buttonclicks
     tone(SOUNDPIN,10,10);
     #endif
     menuDraw();
   }
-  if (keyPressed&MenuGUI_PAD_DOWN && menuList.currentSelected+1 < menuList.menuItemsQuantity) {
-    menuList.currentSelected++;
+  if (keyPressed&MenuGUI_PAD_DOWN && menuList.menuCurrent+1 < menuList.menuItemsQuantity) {
+    menuList.menuCurrent++;
     #ifdef buttonclicks
     tone(SOUNDPIN,10,10);
     #endif
     menuDraw();
   }
-  if (keyPressed&MenuGUI_PAD_ACT && menuList.menuLine[menuList.currentSelected][0] != '-') {
+  if (keyPressed&MenuGUI_PAD_ACT && menuList.menuLine[menuList.menuCurrent][0] != '-') {
     #ifdef buttonclicks  
       tone(SOUNDPIN,100,100);
     #endif
+    
+    tft->drawRect(0, (menuList.menuCurrent+menuList.menuOffset)*MENU_SPACE_BETWEEN_LINES, 122, MENU_SPACE_BETWEEN_LINES, TFT_BLACK);
+    delay(50);
+    tft->drawRect(0, (menuList.menuCurrent+menuList.menuOffset)*MENU_SPACE_BETWEEN_LINES, 122, MENU_SPACE_BETWEEN_LINES, menuList.menuSelectionColor);
+    delay(50);
+    tft->drawRect(0, (menuList.menuCurrent+menuList.menuOffset)*MENU_SPACE_BETWEEN_LINES, 122, MENU_SPACE_BETWEEN_LINES, TFT_BLACK);
+    delay(50);
+    tft->drawRect(0, (menuList.menuCurrent+menuList.menuOffset)*MENU_SPACE_BETWEEN_LINES, 122, MENU_SPACE_BETWEEN_LINES, menuList.menuSelectionColor);
+    delay(200);
+    
     tft->fillScreen(TFT_BLACK);
-    return(menuList.currentSelected+1);
+    return(menuList.menuCurrent+1);
   }
   if (keyPressed&MenuGUI_PAD_ESC){
     #ifdef buttonclicks  

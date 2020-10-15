@@ -61,7 +61,7 @@ struct menuStruct{
   uint16_t menuLineColor;
   uint16_t menuUnselectedLineColor;
   uint16_t menuSelectionColor;
-  uint16_t currentSelected;
+  uint16_t menuCurrent;
 } menuList;
 
 uint8_t getKeys();
