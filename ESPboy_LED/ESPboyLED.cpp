@@ -3,7 +3,7 @@ ESPboy LED class
 for www.ESPboy.com project by RomanS
 */
 
-#include "ESPboy_LED.h"
+#include "ESPboyLED.h"
 
 
 void ESPboyLED::begin(){

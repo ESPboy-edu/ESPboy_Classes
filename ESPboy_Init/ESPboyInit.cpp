@@ -57,13 +57,14 @@ void ESPboyInit::begin(char *appName) {
   dac.setVoltage(4095, true);
   tft.fillScreen(TFT_BLACK);
 
-//LED pin LOCK ON
+//LED pin LOCK OFF
   mcp.pinMode(LEDLOCK, OUTPUT);
-  mcp.digitalWrite(LEDLOCK, LOW); 
+  mcp.digitalWrite(LEDLOCK, HIGH); 
 };
 
 
 void ESPboyInit::playTone(uint16_t frq, uint16_t dur) { tone(SOUNDPIN, frq, dur); }
+void ESPboyInit::playTone(uint16_t frq) { tone(SOUNDPIN, frq); }
 
 void ESPboyInit::noPlayTone() { noTone(SOUNDPIN); }
 

@@ -4,7 +4,7 @@ for www.ESPboy.com project by RomanS
 */
 
 
-#include "ESPboy_LED.h"
+#include "ESPboyLED.h"
 #include <Adafruit_MCP23017.h>
 
 #define MCP23017address 0 // actually it's 0x20 but in <Adafruit_MCP23017.h> lib there is (x|0x20) :)

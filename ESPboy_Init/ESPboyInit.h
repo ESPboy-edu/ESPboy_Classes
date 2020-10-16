@@ -13,7 +13,7 @@ v1.0
 #include <Adafruit_MCP4725.h>  //to control the LCD display backlit
 #include <TFT_eSPI.h>          //to draw at LCD TFT
 #include <ESP8266WiFi.h>       //to control WiFi
-#include "ESPboyLogo.h"
+#include "lib/ESPboyLogo.h"
 
 #include <FS.h> 
 using fs::FS;
@@ -49,6 +49,7 @@ public:
   
   uint8_t getKeys();
   void playTone(uint16_t frq, uint16_t dur);
+  void playTone(uint16_t frq);
   void noPlayTone();
 };
 
