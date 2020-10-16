@@ -26,15 +26,15 @@ using fs::FS;
 #define LEDLOCK        9
 #define CSTFTPIN       8 //Chip Select pin for LCD (it's on the MCP23017 GPIO expander GPIO8)
 
-#define Init_PAD_LEFT        0x01
-#define Init_PAD_UP          0x02
-#define Init_PAD_DOWN        0x04
-#define Init_PAD_RIGHT       0x08
-#define Init_PAD_ACT         0x10
-#define Init_PAD_ESC         0x20
-#define Init_PAD_LFT         0x40
-#define Init_PAD_RGT         0x80
-#define Init_PAD_ANY         0xff
+#define PAD_LEFT        0x01
+#define PAD_UP          0x02
+#define PAD_DOWN        0x04
+#define PAD_RIGHT       0x08
+#define PAD_ACT         0x10
+#define PAD_ESC         0x20
+#define PAD_LFT         0x40
+#define PAD_RGT         0x80
+#define PAD_ANY         0xff
 
 
 class ESPboyInit{
