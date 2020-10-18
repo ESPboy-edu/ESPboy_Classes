@@ -1,5 +1,5 @@
 /*
-ESPboyGUI class
+ESPboyTerminalGUI class
 for www.ESPboy.com project by RomanS
 https://hackaday.io/project/164830-espboy-games-iot-stem-for-education-fun
 v2.1
@@ -8,14 +8,14 @@ v2.1
 
 
 //!!!!!!!!!!!!!!!!!
-#define U8g2  //if defined then using font 4x6, if commented using font 6x8
+//#define U8g2  //if defined then using font 4x6, if commented using font 6x8
 #define buttonclicks //if defined - button are clicking but it takes more than 1kb RAM, if commented - no clicks and more free RAM
 //!!!!!!!!!!!!!!!!!
 
 
 
-#ifndef ESPboy_GUI
-#define ESPboy_GUI
+#ifndef ESPboy_TerminalGUI
+#define ESPboy_TerminalGUI
 
 #include <Adafruit_MCP23017.h>
 #include <TFT_eSPI.h>
@@ -34,7 +34,7 @@ using fs::FS;
  #define GUI_FONT_HEIGHT 8
 #endif
 
-#define GUI_MAX_CONSOLE_STRINGS 200
+#define GUI_MAX_CONSOLE_STRINGS 50
 #define GUI_MAX_STRINGS_ONSCREEN_FULL  ((128-2)/GUI_FONT_HEIGHT)
 #define GUI_MAX_STRINGS_ONSCREEN_SMALL ((128-44)/GUI_FONT_HEIGHT)
 #define GUI_MAX_TYPING_CHARS 60
@@ -54,7 +54,7 @@ using fs::FS;
 #define GUI_PAD_ANY         0xff
 
 
-class ESPboyGUI{
+class ESPboyTerminalGUI{
 
 private:
   Adafruit_MCP23017 *mcp; 
@@ -62,6 +62,14 @@ private:
 #ifdef U8g2
   U8g2_for_TFT_eSPI *u8f;
 #endif
+
+
+ struct consoleStringS {
+  String consoleString;
+  uint16_t consoleStringColor;
+  };
+
+ std::vector <consoleStringS> consoleStringsVector;
 
   struct keyboardParameters{
     uint8_t renderLine;
@@ -73,23 +81,22 @@ private:
   }keybParam;
 
   const static uint8_t keybOnscr[2][3][21] PROGMEM;
-  static String *consoleStrings;
-  static uint16_t *consoleStringsColor;
 
   uint8_t keysAction();
 	void drawConsole(uint8_t onlyLastLine);
 	void drawKeyboard(uint8_t slX, uint8_t slY, uint8_t onlySelected);
-	void drawTyping(uint8_t);
 	void drawBlinkingCursor();
+  void drawTyping(uint8_t);
   
 public:
-  ESPboyGUI(TFT_eSPI *tftGUI, Adafruit_MCP23017 *mcpGUI);
+  ESPboyTerminalGUI(TFT_eSPI *tftGUI, Adafruit_MCP23017 *mcpGUI);
   void SetKeybParamTyping(String str);
   uint8_t getKeys();
   uint32_t waitKeyUnpressed();
   void printConsole(String bfrstr, uint16_t color, uint8_t ln, uint8_t noAddLine);
   String getUserInput();
   void toggleDisplayMode(uint8_t mode);
+  void drawOwnTypingLine(String typingLine, uint16_t colorLine);
 };
 
 #endif
