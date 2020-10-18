@@ -7,10 +7,6 @@ ESPboyTerminalGUI* terminalGUIobj = NULL;
 void setup(){
   myESPboy.begin("ESPboy Terminal GUI");
   terminalGUIobj = new ESPboyTerminalGUI(&myESPboy.tft, &myESPboy.mcp);
-  if (terminalGUIobj == NULL){
-    Serial.println(F("No enough memory to init Terminal GUI object"));
-    while(1) delay(1000);}
-
   terminalGUIobj->printConsole("Testing terminal GUI", TFT_MAGENTA, 1, 0);
 }
 
@@ -43,7 +39,7 @@ void loop(){
   terminalGUIobj->printConsole("Testing info", TFT_YELLOW, 1, 0);
   delay(2000);
   terminalGUIobj->drawOwnTypingLine(F("Testing print..."), TFT_GREEN);
-  delay(4000);
+  delay(2000);
   terminalGUIobj->drawOwnTypingLine("", TFT_BLACK);
 
   terminalGUIobj->getUserInput();
