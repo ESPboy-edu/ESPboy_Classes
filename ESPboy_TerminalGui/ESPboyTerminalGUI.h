@@ -8,7 +8,7 @@ v2.1
 
 
 //!!!!!!!!!!!!!!!!!
-//#define U8g2  //if defined then using font 4x6, if commented using font 6x8
+#define U8g2  //if defined then using font 4x6, if commented using font 6x8
 #define buttonclicks //if defined - button are clicking but it takes more than 1kb RAM, if commented - no clicks and more free RAM
 //!!!!!!!!!!!!!!!!!
 
@@ -34,7 +34,7 @@ using fs::FS;
  #define GUI_FONT_HEIGHT 8
 #endif
 
-#define GUI_MAX_CONSOLE_STRINGS 50
+#define GUI_MAX_CONSOLE_STRINGS 100
 #define GUI_MAX_STRINGS_ONSCREEN_FULL  ((128-2)/GUI_FONT_HEIGHT)
 #define GUI_MAX_STRINGS_ONSCREEN_SMALL ((128-44)/GUI_FONT_HEIGHT)
 #define GUI_MAX_TYPING_CHARS 60
@@ -72,7 +72,7 @@ private:
  std::vector <consoleStringS> consoleStringsVector;
 
   struct keyboardParameters{
-    uint8_t renderLine;
+    int16_t renderLine;
     uint8_t displayMode;
     uint8_t shiftOn;
     int8_t selX;

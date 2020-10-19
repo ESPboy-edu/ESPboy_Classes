@@ -63,18 +63,17 @@ uint8_t ESPboyTerminalGUI::keysAction() {
         if ((keyState & GUI_PAD_DOWN) && keybParam.selY == 3) keybParam.selY = 0;
       }
 
-      if ((keyState & GUI_PAD_ACT && keyState & GUI_PAD_ESC) ||
-          (keyState & GUI_PAD_RGT && keyState & GUI_PAD_LFT)) {
-        if (keybParam.renderLine > GUI_MAX_CONSOLE_STRINGS - GUI_MAX_STRINGS_ONSCREEN_FULL)
-          keybParam.renderLine = GUI_MAX_CONSOLE_STRINGS - GUI_MAX_STRINGS_ONSCREEN_FULL;
+      if ((keyState&GUI_PAD_ACT && keyState&GUI_PAD_ESC) || (keyState&GUI_PAD_RGT && keyState&GUI_PAD_LFT)) {
+        if (keybParam.renderLine > consoleStringsVector.size() - GUI_MAX_STRINGS_ONSCREEN_FULL)
+          keybParam.renderLine = consoleStringsVector.size() - GUI_MAX_STRINGS_ONSCREEN_FULL;
         toggleDisplayMode(1);
         waitKeyUnpressed();
-      } else if (keyState & GUI_PAD_RGT && keybParam.renderLine) {
+        
+      } else if (keyState&GUI_PAD_RGT && keybParam.renderLine) {
         keybParam.renderLine--;
         drawConsole(0);
-      } else if (keyState & GUI_PAD_LFT &&
-                 keybParam.renderLine <
-                     GUI_MAX_CONSOLE_STRINGS - GUI_MAX_STRINGS_ONSCREEN_SMALL) {
+        
+      } else if (keyState&GUI_PAD_LFT && keybParam.renderLine < consoleStringsVector.size() - GUI_MAX_STRINGS_ONSCREEN_SMALL) {
         keybParam.renderLine++;
         drawConsole(0);
       }
@@ -105,28 +104,23 @@ uint8_t ESPboyTerminalGUI::keysAction() {
     }
 
     else {
-      if ((keyState & GUI_PAD_ACT && keyState & GUI_PAD_ESC) ||
-          (keyState & GUI_PAD_RGT && keyState & GUI_PAD_LFT)) {
+      if ((keyState & GUI_PAD_ACT && keyState & GUI_PAD_ESC) || (keyState & GUI_PAD_RGT && keyState & GUI_PAD_LFT)) {
         toggleDisplayMode(0);
         waitKeyUnpressed();
       } else
 
-          if (((keyState & GUI_PAD_RGT || keyState & GUI_PAD_RIGHT ||
-                keyState & GUI_PAD_DOWN)) &&
-              keybParam.renderLine > 0) {
-        keybParam.renderLine--;
-        drawConsole(0);
-      } else
+          if (((keyState & GUI_PAD_RGT || keyState & GUI_PAD_RIGHT || keyState & GUI_PAD_DOWN)) && keybParam.renderLine > 0) {
+            keybParam.renderLine--;
+            drawConsole(0);
+          } else
 
-          if (((keyState & GUI_PAD_LFT || keyState & GUI_PAD_LEFT ||
-                keyState & GUI_PAD_UP)) &&
-              keybParam.renderLine < GUI_MAX_CONSOLE_STRINGS - GUI_MAX_STRINGS_ONSCREEN_FULL) {
+          if (((keyState&GUI_PAD_LFT || keyState & GUI_PAD_LEFT || keyState&GUI_PAD_UP)) && keybParam.renderLine < consoleStringsVector.size() - GUI_MAX_STRINGS_ONSCREEN_FULL) {
         keybParam.renderLine++;
         drawConsole(0);
       } else
 
           if (keyState & GUI_PAD_ESC)
-        toggleDisplayMode(0);
+            toggleDisplayMode(0);
     }
     if (!keybParam.displayMode) drawKeyboard(keybParam.selX, keybParam.selY, 1);
   }
@@ -198,7 +192,7 @@ void ESPboyTerminalGUI::drawConsole(uint8_t onlyLastLine) {
   uint16_t lines;
   uint16_t offsetY;
   uint16_t quantityLinesToDraw;
-  uint16_t startVectorToDraw;
+  int16_t startVectorToDraw;
   
   if (keybParam.displayMode) lines = GUI_MAX_STRINGS_ONSCREEN_FULL;
   else lines = GUI_MAX_STRINGS_ONSCREEN_SMALL;
@@ -230,10 +224,11 @@ void ESPboyTerminalGUI::drawConsole(uint8_t onlyLastLine) {
     tft->drawString(consoleStringsVector[startVectorToDraw].consoleString, 3, offsetY);
 #else
     u8f->setForegroundColor(consoleStringsVector[startVectorToDraw].consoleStringColor);
-    u8f->drawStr(3, offsetY, consoleStringsVector[startVectorToDraw].consoleString.c_str());
+    u8f->drawStr(2, offsetY, consoleStringsVector[startVectorToDraw].consoleString.c_str());
 #endif
     offsetY -= GUI_FONT_HEIGHT;
     startVectorToDraw--;
+    if(startVectorToDraw<0) startVectorToDraw=0;
   } 
 }
 
