@@ -31,11 +31,14 @@ void ESPboyMenuGUI::menuDraw(){
   static uint16_t scalingFactor;
   static uint16_t previousRect = 0;
 
-  if(menuList.menuItemsQuantity>=MENU_MAX_LINES_ONSCREEN)
-    scalingFactor = ((MENU_MAX_LINES_ONSCREEN*MENU_SPACE_BETWEEN_LINES-6)*1000)/(menuList.menuItemsQuantity-1);
-  else
-    scalingFactor = ((menuList.menuItemsQuantity*MENU_SPACE_BETWEEN_LINES-6)*1000)/(menuList.menuItemsQuantity-1);
-
+  if(menuList.menuItemsQuantity>1){
+    if(menuList.menuItemsQuantity>=MENU_MAX_LINES_ONSCREEN)
+      scalingFactor = ((MENU_MAX_LINES_ONSCREEN*MENU_SPACE_BETWEEN_LINES-6)*1000)/(menuList.menuItemsQuantity-1);
+    else
+      scalingFactor = ((menuList.menuItemsQuantity*MENU_SPACE_BETWEEN_LINES-6)*1000)/(menuList.menuItemsQuantity-1);
+  }
+  else scalingFactor=1;
+  
   tft->drawRect(0, previousRect*MENU_SPACE_BETWEEN_LINES, 122, MENU_SPACE_BETWEEN_LINES, TFT_BLACK);
   tft->fillRect(125,0, 3, 128, TFT_BLACK);
 
