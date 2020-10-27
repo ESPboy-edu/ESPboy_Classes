@@ -95,6 +95,7 @@ public:
   uint32_t waitKeyUnpressed();
   void printConsole(String bfrstr, uint16_t color, uint8_t ln, uint8_t noAddLine);
   String getUserInput();
+  void doScroll();
   void toggleDisplayMode(uint8_t mode);
   void drawOwnTypingLine(String typingLine, uint16_t colorLine);
 };
