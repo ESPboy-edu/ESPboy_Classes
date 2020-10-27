@@ -28,8 +28,13 @@ uint8_t ESPboyMenuGUI::getKeys() { return (~mcp->readGPIOAB() & 255); }
 
 
 void ESPboyMenuGUI::menuDraw(){
-  static uint16_t scalingFactor = ((MENU_MAX_LINES_ONSCREEN*MENU_SPACE_BETWEEN_LINES-6)*1000)/(menuList.menuItemsQuantity-1);
+  static uint16_t scalingFactor;
   static uint16_t previousRect = 0;
+
+  if(menuList.menuItemsQuantity>=MENU_MAX_LINES_ONSCREEN)
+    scalingFactor = ((MENU_MAX_LINES_ONSCREEN*MENU_SPACE_BETWEEN_LINES-6)*1000)/(menuList.menuItemsQuantity-1);
+  else
+    scalingFactor = ((menuList.menuItemsQuantity*MENU_SPACE_BETWEEN_LINES-6)*1000)/(menuList.menuItemsQuantity-1);
 
   tft->drawRect(0, previousRect*MENU_SPACE_BETWEEN_LINES, 122, MENU_SPACE_BETWEEN_LINES, TFT_BLACK);
   tft->fillRect(125,0, 3, 128, TFT_BLACK);
@@ -41,8 +46,11 @@ void ESPboyMenuGUI::menuDraw(){
       tft->fillScreen(TFT_BLACK); 
       menuList.menuOffset--;}
 
-  tft->drawLine(126,0, 126, MENU_MAX_LINES_ONSCREEN*MENU_SPACE_BETWEEN_LINES-2, TFT_BLUE);
- 
+  if(menuList.menuItemsQuantity>=MENU_MAX_LINES_ONSCREEN)
+    tft->drawLine(126,0, 126, MENU_MAX_LINES_ONSCREEN*MENU_SPACE_BETWEEN_LINES-2, TFT_BLUE);
+  else
+    tft->drawLine(126,0, 126, menuList.menuItemsQuantity*MENU_SPACE_BETWEEN_LINES-2, TFT_BLUE);
+  
   for (uint8_t i=0;; i++){
     if(i>=menuList.menuItemsQuantity || i>=MENU_MAX_LINES_ONSCREEN) break;
 
