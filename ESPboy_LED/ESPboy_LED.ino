@@ -15,8 +15,8 @@ Adafruit_MCP23017 mcp;
 
 void setup(){
   Serial.begin(115200);
-  myled.begin();
   mcp.begin(MCP23017address);
+  myled.begin(&mcp);
   delay (100);
   mcp.pinMode(LEDLOCK, OUTPUT);
   mcp.digitalWrite(LEDLOCK, HIGH);
