@@ -8,7 +8,6 @@ for www.ESPboy.com project by RomanS
 #include <Adafruit_MCP23017.h>
 
 #define MCP23017address 0 // actually it's 0x20 but in <Adafruit_MCP23017.h> lib there is (x|0x20) :)
-#define LEDLOCK 9
 
 ESPboyLED myled;
 Adafruit_MCP23017 mcp;
@@ -17,9 +16,7 @@ void setup(){
   Serial.begin(115200);
   mcp.begin(MCP23017address);
   myled.begin(&mcp);
-  delay (100);
-  mcp.pinMode(LEDLOCK, OUTPUT);
-  mcp.digitalWrite(LEDLOCK, HIGH);
+  delay (1000);
 }
 
 
