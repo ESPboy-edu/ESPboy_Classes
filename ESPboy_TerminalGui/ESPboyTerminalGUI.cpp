@@ -187,14 +187,14 @@ void ESPboyTerminalGUI::printConsole(String bfrstr, uint16_t color, uint8_t ln, 
   if(bfrstr == "") bfrstr = " ";
   
   if (!ln)
-    if (bfrstr.length() > ((128-4)/GUI_FONT_WIDTH)) {
-      bfrstr = bfrstr.substring(0, ((128-4)/GUI_FONT_WIDTH));
+    if (bfrstr.length() > ((128-GUI_FONT_WIDTH)/GUI_FONT_WIDTH)) {
+      bfrstr = bfrstr.substring(0, ((128-GUI_FONT_WIDTH)/GUI_FONT_WIDTH));
       toprint = bfrstr;
   }
 
-  for (uint8_t i = 0; i <= ((bfrstr.length()-1) / ((128-4)/GUI_FONT_WIDTH)); i++) {
-    toprint = bfrstr.substring(i * (128-4)/GUI_FONT_WIDTH);
-    toprint = toprint.substring(0, (128-4)/GUI_FONT_WIDTH);
+  for (uint8_t i = 0; i <= ((bfrstr.length()-1) / ((128-GUI_FONT_WIDTH)/GUI_FONT_WIDTH)); i++) {
+    toprint = bfrstr.substring(i * (128-GUI_FONT_WIDTH)/GUI_FONT_WIDTH);
+    toprint = toprint.substring(0, (128-GUI_FONT_WIDTH)/GUI_FONT_WIDTH);
 
     if (!noAddLine) consoleStringsVector.push_back(consoleStringS());
     consoleStringsVector.back().consoleString = toprint;
