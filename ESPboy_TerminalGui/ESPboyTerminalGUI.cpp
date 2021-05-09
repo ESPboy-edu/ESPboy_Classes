@@ -6,7 +6,6 @@ v2.1
 */
 
 #include "ESPboyTerminalGUI.h"
-#define SOUNDPIN D3
 
 const uint8_t ESPboyTerminalGUI::keybOnscr[2][3][21] PROGMEM = {
  {"+1234567890abcdefghi", "jklmnopqrstuvwxyz -=", "?!@$%&*()_[]\":;.,^<E",},
@@ -334,6 +333,10 @@ void ESPboyTerminalGUI::drawBlinkingCursor() {
 }
 
 
-void ESPboyTerminalGUI::SetKeybParamTyping(String str){
+void ESPboyTerminalGUI::setKeybParamTyping(String str){
   keybParam.typing = str;
+}
+
+String ESPboyTerminalGUI::getTyping(){
+  return (keybParam.typing);
 }
