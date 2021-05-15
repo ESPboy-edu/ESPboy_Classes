@@ -9,7 +9,7 @@ v2.1
 
 //!!!!!!!!!!!!!!!!!
 //#define U8g2  //if defined then using font 4x6, if commented using font 6x8
-#define buttonclicks //if defined - button are clicking but it takes more than 1kb RAM, if commented - no clicks and more free RAM
+//#define buttonclicks //if defined - button are clicking but it takes more than 1kb RAM, if commented - no clicks and more free RAM
 //!!!!!!!!!!!!!!!!!
 
 #ifndef ESPboy_TerminalGUI
@@ -81,15 +81,16 @@ private:
   }keybParam;
 
   const static uint8_t keybOnscr[2][3][21] PROGMEM;
-  void drawConsole(uint8_t onlyLastLine);
-  void drawKeyboard(uint8_t slX, uint8_t slY, uint8_t onlySelected);
-  void drawBlinkingCursor();
+
+  uint8_t keysAction();
+	void drawConsole(uint8_t onlyLastLine);
+	void drawKeyboard(uint8_t slX, uint8_t slY, uint8_t onlySelected);
+	void drawBlinkingCursor();
+  void drawTyping(uint8_t);
   
 public:
-  void drawTyping(uint8_t);
   ESPboyTerminalGUI(TFT_eSPI *tftGUI, Adafruit_MCP23017 *mcpGUI);
-  uint8_t keysAction();
-  void setKeybParamTyping(String str);
+  void SetKeybParamTyping(String str);
   uint8_t getKeys();
   uint32_t waitKeyUnpressed();
   void printConsole(String bfrstr, uint16_t color, uint8_t ln, uint8_t noAddLine);
@@ -97,7 +98,6 @@ public:
   void doScroll();
   void toggleDisplayMode(uint8_t mode);
   void drawOwnTypingLine(String typingLine, uint16_t colorLine);
-  String getTyping();
 };
 
 #endif
