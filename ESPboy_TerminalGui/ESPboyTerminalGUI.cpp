@@ -202,7 +202,7 @@ void ESPboyTerminalGUI::printConsole(String bfrstr, uint16_t color, uint8_t ln, 
   
   drawConsole(noAddLine);
   
-  if (consoleStringsVector.size() > GUI_MAX_CONSOLE_STRINGS){
+  while (consoleStringsVector.size() > GUI_MAX_CONSOLE_STRINGS){
     consoleStringsVector.erase(consoleStringsVector.begin());
     consoleStringsVector.shrink_to_fit();
   }
