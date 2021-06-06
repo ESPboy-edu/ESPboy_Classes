@@ -34,92 +34,37 @@ Check "ESPboyGUI.h" for defines:
 */
 
 
-#include <Adafruit_MCP23017.h>
-#include <TFT_eSPI.h>
-#include "lib/ESPboyLogo.h"
-#include <ESP8266WiFi.h>
 #include <ESP8266httpUpdate.h>
-#include "ESPboyOTA.h"
-#include "ESPboyGUI.h"
+#include "lib/ESPboyOTA.h"
+#include "lib/ESPboyOTA.cpp"
+#include "lib/ESPboyInit.h"
+#include "lib/ESPboyInit.cpp"
+#include "lib/ESPboyTerminalGUI.h"
+#include "lib/ESPboyTerminalGUI.cpp"
 
-#define PAD_LEFT        0x01
-#define PAD_UP          0x02
-#define PAD_DOWN        0x04
-#define PAD_RIGHT       0x08
-#define PAD_ACT         0x10
-#define PAD_ESC         0x20
-#define PAD_LFT         0x40
-#define PAD_RGT         0x80
-#define PAD_ANY         0xff
-
-#define MCP23017address 0  // actually it's 0x20 but in <Adafruit_MCP23017.h> lib there is (x|0x20) :)
-#define LEDPIN D4
-#define SOUNDPIN D3
-#define CSTFTPIN 8  // CS MCP23017 PIN to TFT
-
-Adafruit_MCP23017 mcp;
-TFT_eSPI tft;
+ESPboyInit myESPboy;
+ESPboyTerminalGUI *terminalGUIobj = NULL;
 ESPboyOTA *OTAobj = NULL;
-ESPboyGUI *GUIobj = NULL;
-
-
-uint8_t getKeys() { return (~mcp.readGPIOAB() & 255); }
 
 
 void setup() {
-  Serial.begin(115200);
-  delay(100);
-
-  // MCP23017 and buttons init, should preceed the TFT init
-  mcp.begin(MCP23017address);
-  delay(100);
-
-  for (int i = 0; i < 8; ++i) {
-    mcp.pinMode(i, INPUT);
-    mcp.pullUp(i, HIGH);
-  }
-
-  // Sound init and test
-  pinMode(SOUNDPIN, OUTPUT);
-  tone(SOUNDPIN, 200, 100);
-  delay(100);
-  tone(SOUNDPIN, 100, 100);
-  delay(100);
-  noTone(SOUNDPIN);
-
-  // TFT init
-  mcp.pinMode(CSTFTPIN, OUTPUT);
-  mcp.digitalWrite(CSTFTPIN, LOW);
-  tft.begin();
-  delay(100);
-  tft.setRotation(0);
-  tft.fillScreen(TFT_BLACK);
-
-  // draw ESPboylogo
-  tft.drawXBitmap(30, 20, ESPboyLogo, 68, 64, TFT_YELLOW);
-  tft.setTextColor(TFT_YELLOW, TFT_BLACK);
-  tft.drawString(F("App Store"), 38, 95);
-
-  delay(1000);
-
-  // init ADC voltage meter
-  pinMode(A0, INPUT);
-
-  // clear screen
-  tft.fillScreen(TFT_BLACK);
-
-  // check OTA
-  if (getKeys()&PAD_ACT || getKeys()&PAD_ESC) { GUIobj=new ESPboyGUI(&tft, &mcp); OTAobj=new ESPboyOTA(GUIobj);}
+ 
+  // Init ESPboy
+  myESPboy.begin("AppStore (OTA)");
   
-  WiFi.mode(WIFI_OFF);
+  //Check OTA
+  if (myESPboy.getKeys()&PAD_ACT || myESPboy.getKeys()&PAD_ESC) { 
+     terminalGUIobj = new ESPboyTerminalGUI(&myESPboy.tft, &myESPboy.mcp);
+     OTAobj = new ESPboyOTA(terminalGUIobj);
+  }
 }
 
 void loop() {
-    tft.fillScreen(TFT_BLACK);
-    tft.setTextColor(TFT_MAGENTA, TFT_BLACK);
-    tft.setCursor(0, random(70));
-    tft.print("Keep A or B pressed\nduring reset to start\nESPboy App store\n\nA-connect last WiFi\nB-scan networks");
-    while (!getKeys()) delay(200);
-    tone(SOUNDPIN, 100, 100);
+    myESPboy.tft.fillScreen(TFT_BLACK);
+    myESPboy.tft.setTextColor(TFT_MAGENTA, TFT_BLACK);
+    myESPboy.tft.setCursor(0, random(70));
+    myESPboy.tft.print("Keep A or B pressed\nduring reset to start\nESPboy App store\n\nA-connect last WiFi\nB-scan networks");
+    while (!myESPboy.getKeys()) delay(200);
+    myESPboy.playTone(100, 100);
     delay(200);
 }

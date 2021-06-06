@@ -16,7 +16,8 @@ using fs::FS;
 #include <HTTPSRedirect.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266httpUpdate.h>
-#include "ESPboyGUI.h"
+#include "ESPboyTerminalGUI.h"
+#include "ESPboyTerminalGUI.cpp"
 
 #define OTA_TIMEOUT_CONNECTION 10000
 
@@ -54,7 +55,7 @@ struct lessRssi{
 class ESPboyOTA{
 
 private:
-  ESPboyGUI *GUIobj = NULL;
+  ESPboyTerminalGUI *GUIobj = NULL;
 
   std::vector<wf> wfList;  // WiFi list
   std::vector<fw> fwList;  // Firmware list
@@ -86,7 +87,7 @@ private:
 	void checkOTA();
 
 public:
-	ESPboyOTA(ESPboyGUI* GUIobjOTA);
+	ESPboyOTA(ESPboyTerminalGUI* GUIobjOTA);
 };
 
 #endif

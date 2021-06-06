@@ -17,7 +17,7 @@ const char PROGMEM* ESPboyOTA::hostD = "script.google.com";
 const char PROGMEM* ESPboyOTA::urlPost = "/macros/s/AKfycbxIfj1Eqi1eupe9Vmkhk0liuNrhSvM1Sx65qxocbBsd4jl0e7yj/exec";
 const uint16_t PROGMEM ESPboyOTA::httpsPort = 443;
 
-ESPboyOTA::ESPboyOTA(ESPboyGUI* GUIobjOTA) {    
+ESPboyOTA::ESPboyOTA(ESPboyTerminalGUI* GUIobjOTA) {    
    GUIobj = GUIobjOTA;
    GUIobj->toggleDisplayMode(1);
    checkOTA();
