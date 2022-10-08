@@ -37,12 +37,6 @@ ESPboy OTA keys:
   - UP/DOWN, RGT/LFT, LEFT/RIGHT - scroll console window
   - B - switch to keyboard mode
 
- Tracking
-- v0.12 optimisations
-
- 2Do
- - add Type menu
- - add Genre menu
 
 
 
