@@ -15,7 +15,8 @@ for www.ESPboy.com project by RomanS
 class ESPboyLED{
 private:
   Adafruit_MCP23017 *mcp; 
-  uint8_t LEDr, LEDg, LEDb, LEDflagOnOff;
+  uint8_t LEDr, LEDg, LEDb;
+  bool LEDflagOnOff=true;
   void ledset(uint8_t rled, uint8_t gled, uint8_t bled);
   
 public: 
