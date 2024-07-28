@@ -5,8 +5,9 @@ https://hackaday.io/project/164830-espboy-games-iot-stem-for-education-fun
 v1.0
 */
 
+
 //!!!!!!!!!!!!!!!!!
-//#define U8g2  //if defined then using font 4x6, if commented using font 6x8
+//#define U8g2_MENU  //if defined then using font 4x6, if commented using font 6x8
 #define buttonclicks //if defined - button are clicking but it takes more than 1kb RAM, if commented - no clicks and more free RAM
 ////!!!!!!!!!!!!!!!!!
 
@@ -20,19 +21,19 @@ v1.0
 #include <FS.h> 
 using fs::FS;
 
-#ifdef U8g2
+#ifdef U8g2_MENU
  #include "U8g2_for_TFT_eSPI.h"
 #endif
 
-#ifdef U8g2
- #define GUI_FONT_WIDTH 4
- #define GUI_FONT_HEIGHT 6
+#ifdef U8g2_MENU
+ #define GUI_FONT_WIDTH_MENU 4
+ #define GUI_FONT_HEIGHT_MENU 6
 #else
- #define GUI_FONT_WIDTH 6
- #define GUI_FONT_HEIGHT 8
+ #define GUI_FONT_WIDTH_MENU 6
+ #define GUI_FONT_HEIGHT_MENU 8
 #endif
 
-#define MENU_SPACE_BETWEEN_LINES (GUI_FONT_HEIGHT+3)
+#define MENU_SPACE_BETWEEN_LINES (GUI_FONT_HEIGHT_MENU+3)
 #define MENU_MAX_LINES_ONSCREEN (128/MENU_SPACE_BETWEEN_LINES)
 
 #define MenuGUI_PAD_LEFT        0x01
@@ -50,7 +51,7 @@ class ESPboyMenuGUI{
 
 private:
 ESPboyInit *myESPboy;
-#ifdef U8g2
+#ifdef U8g2_MENU
   U8g2_for_TFT_eSPI *u8f;
 #endif
 

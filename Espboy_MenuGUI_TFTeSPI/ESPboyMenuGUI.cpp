@@ -9,9 +9,9 @@ v1.0
 
 ESPboyMenuGUI::ESPboyMenuGUI(ESPboyInit *myESPboyPointer) {
    myESPboy = myESPboyPointer;
-#ifdef U8g2
+#ifdef U8g2_MENU
    u8f = new U8g2_for_TFT_eSPI;
-   u8f->begin(*tft); 
+   u8f->begin(myESPboy->tft); 
    u8f->setFontMode(1);                 // use u8g2 none transparent mode
    u8f->setBackgroundColor(TFT_BLACK);
    u8f->setFontDirection(0);            // left to right
