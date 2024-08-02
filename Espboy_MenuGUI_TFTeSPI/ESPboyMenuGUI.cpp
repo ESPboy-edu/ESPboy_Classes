@@ -51,7 +51,7 @@ void ESPboyMenuGUI::menuDraw(){
   for (uint8_t i=0;; i++){
     if(i>=menuList.menuItemsQuantity || i>=MENU_MAX_LINES_ONSCREEN) break;
 
-    #ifndef U8g2
+    #ifndef U8g2_MENU
       if(menuList.menuLine[i+menuList.menuOffset][0] == '-'){ 
         myESPboy->tft.setTextColor(menuList.menuUnselectedLineColor);
         myESPboy->tft.drawString(&menuList.menuLine[i+menuList.menuOffset][1], 3, i*MENU_SPACE_BETWEEN_LINES+2);
